@@ -1,0 +1,54 @@
+#生产环境
+server:
+  port: 8088
+  tomcat:
+    max-http-form-post-size: -1
+
+
+spring:
+  datasource:
+    username: root
+    password: 981028
+    url: jdbc:mysql://localhost:3306/shuliu?serverTimezone=GMT&allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=utf-8
+
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10GB
+
+
+
+
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+
+  messages:
+    basename: i18n.login
+
+swagger:
+  show: true
+
+#  E:/images/
+#  /usr/images/
+file-save-path: E:/images/
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+
+
+
+
+
+
