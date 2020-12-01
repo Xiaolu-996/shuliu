@@ -35,6 +35,8 @@ public class Users implements Serializable {
 
 	private Integer age;
 
+	private Integer password;
+
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GTM+8")  /*规定日期格式*/
 	/*次数应该用Date属性的，开始写时没注意时间给日期用了string类型*/
 	private String bir;
