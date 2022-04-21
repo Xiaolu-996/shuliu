@@ -30,4 +30,7 @@ public interface UsersService extends IService<Users> {
 
 	/*查询一个数据*/
 	Users selectByid(int id);
+
+	/*登录 判断用户名密码是否正确*/
+	Users login(Users user);
 }

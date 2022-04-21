@@ -1,12 +1,17 @@
 package com.shuliu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.shuliu.entity.Books;
 import com.shuliu.entity.Collections;
 import com.shuliu.mapper.BooksMapper;
 import com.shuliu.service.BooksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shuliu.service.CollectionsService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +20,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -24,18 +30,38 @@ import java.util.List;
  * @author looni vvb
  * @since 2020-05-26
  */
+@Slf4j //日志输出
 @Service
 public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements BooksService {
 	@Resource
 	CollectionsService collectionsService;
+
+	@Autowired
+	private RedisTemplate<String, String> redisTemplate;
+
 	//上传文件路径
 	@Value("${file-save-path}")
 	String filePath;
 
-
 	@Override
-	public List<Books> selectList() {
-		return baseMapper.selectList(null);
+	public List<Books> findAll() {
+		//增加缓存
+		//先去缓存查找，如果缓存有 直接返回 如果缓存没有 从数据库查询 放入缓存
+		String userListJsonStr = redisTemplate.opsForValue().get("BookService.findAll");
+
+		//userListJsonStr若不为空，则直接走缓存
+		if (StringUtils.isNotEmpty(userListJsonStr)) {
+			List<Books> books = JSON.parseArray(userListJsonStr, Books.class);
+			//	System.out.println(books);
+			log.info("走了缓存~~~~~~~~");
+			return books;
+		} else {
+			List<Books> books = baseMapper.selectList(null);
+			//放入缓存
+			redisTemplate.opsForValue().set("BookService.findAll", JSON.toJSONString(books), 2, TimeUnit.HOURS);
+			log.info("放入缓存~~~~~~~~");
+			return books;
+		}
 	}
 
 	@Override

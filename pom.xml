@@ -73,7 +73,7 @@
         </dependency>
 
         <!--swagger-->
-        <!-- 引入swagger-ui-layer包 /docs.html-->
+        <!-- 引入swagger-ui-layer包 /document.html-->
         <dependency>
             <groupId>com.zyplayer</groupId>
             <artifactId>swagger-mg-ui</artifactId>
@@ -84,6 +84,13 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.9.2</version>
+        </dependency>
+
+        <!--防止@ConfigurationProperties爆红-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!--数据库-->
@@ -97,6 +104,20 @@
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>3.4.0</version>
+        </dependency>
+
+        <!--redis-->
+        <!--redis-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!--fastjson-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.76</version>
         </dependency>
 
 

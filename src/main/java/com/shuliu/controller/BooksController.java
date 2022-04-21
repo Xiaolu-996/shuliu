@@ -30,7 +30,7 @@ public class BooksController {
 	@ApiOperation("获取所有书籍")
 	@GetMapping("/all")
 	public List<Books> all() {
-		return booksService.selectList();
+		return booksService.findAll();
 	}
 
 	@ApiOperation("添加书籍")

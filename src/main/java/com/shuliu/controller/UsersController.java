@@ -1,14 +1,21 @@
 package com.shuliu.controller;
 
 
+import com.auth0.jwt.exceptions.AlgorithmMismatchException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.shuliu.entity.Books;
 import com.shuliu.entity.Users;
+import com.shuliu.mapper.UsersMapper;
 import com.shuliu.service.UsersService;
+import com.shuliu.utils.JWTUtils;
 import io.swagger.annotations.ApiOperation;
+import org.apache.catalina.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -106,6 +113,32 @@ public class UsersController {
 			e.printStackTrace();
 			map.put("success", false);
 			map.put("msg", "更新用户信息失败");
+		}
+		return map;
+	}
+
+	/*
+	 * 登录请求验证JWT
+	 * */
+	@ApiOperation("登录请求")
+	@GetMapping("/login")
+	public Map<String, Object> login(Users users) {
+		HashMap<String, Object> map = new HashMap<>();
+		try {
+			usersService.login(users);
+			HashMap<String, String> payload = new HashMap<>();
+			payload.put("id", users.getName());
+			payload.put("bir", users.getBir());
+			//生成JWT令牌
+			String token = JWTUtils.getToken(payload);
+			map.put("success", true);
+			map.put("msg", "登录成功");
+			//响应token
+			map.put("token", token);
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("success", false);
+			map.put("msg", "登录失败");
 		}
 		return map;
 	}

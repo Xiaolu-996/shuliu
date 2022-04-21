@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 	@GetMapping("/hello")
 	public String helloController() {
-		return "hello springboot";
+		return "hello springboot - Jetbrain！！！";
 	}
 }

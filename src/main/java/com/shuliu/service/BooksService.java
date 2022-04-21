@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface BooksService extends IService<Books> {
 	//查询所有书籍
-	List<Books> selectList();
+	List<Books> findAll();
 
 	//添加书籍
 	void insert(Books books);
