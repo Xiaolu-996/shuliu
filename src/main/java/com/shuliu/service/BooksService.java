@@ -20,7 +20,7 @@ public interface BooksService extends IService<Books> {
 	List<Books> findAll();
 
 	//添加书籍
-	void insert(Books books);
+	void insert(Books books) throws InterruptedException;
 
 	//刪除书籍
 	void delete(int bid);

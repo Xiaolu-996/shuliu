@@ -65,8 +65,17 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
 	}
 
 	@Override
-	public void insert(Books books) {
+	public void insert(Books books) throws InterruptedException {
+		//延时双删策略
+		//1.先删除缓存
+		redisTemplate.delete("BookService.findAll");
+		//2.更新数据库
 		baseMapper.insert(books);
+		//3.休眠一段时间，清除脏数据
+		Thread.sleep(500);
+		log.info("延时双删策略");
+		//4.再次删除缓存
+		redisTemplate.delete("BookService.findAll");
 	}
 
 	@Override
@@ -115,9 +124,10 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
 		String OriginalFilename = file.getOriginalFilename();
 		//修改文件名
 		String fileName = System.currentTimeMillis() + "." + OriginalFilename.substring(OriginalFilename.lastIndexOf(".") + 1);
-		System.out.println(fileName);
+		System.out.println("fileName:" + fileName);
 		//文件路径
 		File dest = new File(filePath + fileName);
+
 		if (!dest.getParentFile().exists())
 			dest.getParentFile().mkdirs();
 		try {

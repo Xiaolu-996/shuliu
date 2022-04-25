@@ -35,7 +35,7 @@ public class BooksController {
 
 	@ApiOperation("添加书籍")
 	@PostMapping("/add")
-	public void add(@RequestBody Books books) {
+	public void add(@RequestBody Books books) throws InterruptedException {
 		booksService.insert(books);
 	}
 
