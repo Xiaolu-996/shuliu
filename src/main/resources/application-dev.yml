@@ -8,8 +8,8 @@ server:
 spring:
   datasource:
     username: root
-    password: 981028
-    url: jdbc:mysql://localhost:3306/shuliu?serverTimezone=GMT&allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=utf-8
+    password: 990324
+    url: jdbc:mysql://localhost:3309/shuliu?serverTimezone=GMT&allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=utf-8
 
     driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
